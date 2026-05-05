@@ -512,7 +512,7 @@ class _BarChartRace(CommonChart):
 def bar_chart_race(df, filename=None, orientation='h', sort='desc', n_bars=None, 
                    fixed_order=False, fixed_max=False, steps_per_period=10, 
                    period_length=500, end_period_pause=0, interpolate_period=False, 
-                   period_label=True, period_template=None, period_summary_func=None,
+                   period_label=True, period_template=None, period_fmt=None, period_summary_func=None,
                    perpendicular_bar_func=None, colors=None, title=None, bar_size=.95,
                    bar_textposition='outside', bar_texttemplate='{x:,.0f}',
                    bar_label_font=None, tick_label_font=None, tick_template='{x:,.0f}',
@@ -867,6 +867,10 @@ def bar_chart_race(df, filename=None, orientation='h', sort='desc', n_bars=None,
         'medium', 'large', 'x-large', 'xx-large', 'smaller', 'larger'
     These sizes are relative to plt.rcParams['font.size'].
     '''
+    if period_fmt is not None:
+        if period_template is not None and period_template != period_fmt:
+            raise ValueError('`period_fmt` and `period_template` are aliases; provide only one.')
+        period_template = period_fmt
     bcr = _BarChartRace(df, filename, orientation, sort, n_bars, fixed_order, fixed_max,
                         steps_per_period, period_length, end_period_pause, interpolate_period, 
                         period_label, period_template, period_summary_func, perpendicular_bar_func,
